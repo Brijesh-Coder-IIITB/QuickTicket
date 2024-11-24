@@ -5,18 +5,11 @@
 #include "sqlite3.h"
 #include "database.h"
 #include "utils.h"
-
-#define HEADER_COLOR "\033[0;36m"
-#define DATA_COLOR "\033[0;32m"
-
-#ifdef _WIN32
-#include <windows.h>
-
-#else
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-#endif
+#define HEADER_COLOR "\033[0;36m"
+#define DATA_COLOR "\033[0;32m"
 
 int console_width;
 
@@ -96,22 +89,6 @@ void print_table(char *headers[], int cols, char data[][cols][500], int rows) {
     }
     printf(RESET_COLOR);
 
-}
-
-void clear(){
-    #ifdef _WIN32
-    system("cls");
-    #else
-    system("clear");
-    #endif
-}
-
-void cross_sleep(int time){
-    #ifdef _WIN32
-    Sleep(time);
-    #else
-    usleep(time);
-    #endif
 }
 
 void login_page(){
@@ -258,7 +235,6 @@ void login_page(){
 }
 
 void user(char *username){
-    clear();
     setup_intro();
     printf("Hey, %s\n", username);
     printf("[+] You have LoggedIn as User...\n\n");
@@ -329,7 +305,6 @@ void user(char *username){
                 u_option10(username);
                 break;
             case 0:
-                print_all_tables();
                 exit(0);
                 break;
             default:
@@ -1267,7 +1242,6 @@ void u_option10(char *username){
 }
 
 void admin(char *username){
-    clear();
     setup_intro();
     printf("Hey, %s\n\n", username);
     printf("\u2022 You have LoggedIn as Admin...\n\n");
@@ -1302,7 +1276,7 @@ void admin(char *username){
             case 2:
                 a_option2_3(2, -1);
                 break;
-            case 3:
+            case 3:{
                 int id;
                 printf(INNER_QUERY);
                 printf("\tTrain ID: ");
@@ -1310,6 +1284,7 @@ void admin(char *username){
                 scanf("%d", &id);
                 a_option2_3(3, id);
                 break;
+            }
             case 4:
                 a_option4();
                 break;
@@ -1329,8 +1304,6 @@ void admin(char *username){
                 a_option8_9(9);
                 break;
             case 0:
-                printf("0");
-                print_all_tables();
                 exit(0);
                 break;
             default:
@@ -1879,21 +1852,11 @@ void a_option8_9(int option){
 }
 
 void setup_intro() {
-    #ifdef _WIN32
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
-        consoleWidth = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    } else {
-        consoleWidth = 50;
-    }
-    #else
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     console_width = w.ws_col;
-    #endif
-
-    clear();
-    cross_sleep(100);
+    system("clear");
+    usleep(100);
 
     char *red = "\033[0;31m";
     center_group_text("\033[1;32m"
