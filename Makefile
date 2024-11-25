@@ -2,7 +2,7 @@ CFLAGS = -Wno-implicit-function-declaration
 
 rerun: main.o sqlite3.o database.o utils.o
 	@echo Linking and producing the final application
-	@gcc $(CFLAGS) main.o database.o sqlite3.o utils.o -o app
+	@gcc $(CFLAGS) main.o database.o sqlite3.o utils.o -o QuickTicket
 
 main.o: main.c interface.c
 	@echo Compling main file
