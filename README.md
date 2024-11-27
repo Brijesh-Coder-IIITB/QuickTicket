@@ -51,3 +51,35 @@ make rerun
 | tatwik_sai | verystrongpass |
 
 ---
+#### Application Features
+- The application starts with a login page where you can register as new user or sign in as an admin or a user .
+    - **Admin** - You can sign in using the default credentials.
+    - **User** - Can sign in or sign up.
+
+- Once you sign in, you will be taken to the main page with different options for admin and user.
+    - **Admin**
+  
+        **1.** View Trains  
+        **2.** View Schedules  
+        **3.** View Schedules of a Train  
+        **4.** Add Train  
+        **5.** Remove Train  
+        **6.** Add Schedule  
+        **7.** Remove Schedule  
+        **8.** View Reservations  
+        **9.** View Reservations of a Train Schedule  
+        **0.** Exit
+
+    - **User**
+
+        **1.** View all Trains  
+        **2.** Search Trains from Source to Destination  
+        **3.** Search Trains from Source to Destination on a Date  
+        **4.** Book a Ticket  
+        **5.** View Train Map  
+        **6.** View Reservation History  
+        **7.** View Active Reservations  
+        **8.** Cancel a Reservation  
+        **9.** Update Profile  
+        **0.** Exit
+---
