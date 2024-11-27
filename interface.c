@@ -19,8 +19,8 @@ void u_option2_3(int option, char *date);
 void u_option4(char *username);
 void u_option5();
 void u_option6_7(int option, char* username);
+void u_option8(char *username);
 void u_option9(char *username);
-void u_option10(char *username);
 
 void a_option1();
 void a_option2_3(int option, int id);
@@ -263,9 +263,8 @@ void user(char *username){
         "\t5  \u2192 View Train Map\n"
         "\t6  \u2192 View Reservation History\n"
         "\t7  \u2192 View Active Reservations\n"
-        "\t8  \u2192 Modify a Reservation\n"
-        "\t9  \u2192 Cancel a Reservation\n"
-        "\t10 \u2192 Update Profile\n"
+        "\t8  \u2192 Cancel a Reservation\n"
+        "\t9  \u2192 Update Profile\n"
         "\t0  \u2192 Exit\n");
     
     int choice = -1;
@@ -312,13 +311,10 @@ void user(char *username){
                 u_option6_7(7, username);
                 break;
             case 8:
-                printf("8");
+                u_option8(username);
                 break;
             case 9:
                 u_option9(username);
-                break;
-            case 10:
-                u_option10(username);
                 break;
             case 0:
                 exit(0);
@@ -1053,7 +1049,7 @@ void u_option6_7(int option, char *username){
     sqlite3_finalize(stmt);
 }
 
-void u_option9(char *username){
+void u_option8(char *username){
     int u_id=get_user_id(username), r_id, sch_id;
     printf(INNER_QUERY);
     printf("\tReservation id: ");
@@ -1161,7 +1157,7 @@ void u_option9(char *username){
 
 }
 
-void u_option10(char *username){
+void u_option9(char *username){
     int u_id = get_user_id(username);
     int choice;
     printf("\tWhat would you like to update?\n"
