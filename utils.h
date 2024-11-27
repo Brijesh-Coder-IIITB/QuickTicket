@@ -10,6 +10,8 @@
 #define SUCCESS "\033[0;32m"
 #define INNER_QUERY "\033[1;36m"
 #define CHOICE "\033[0;94m"
+#define HEADER_COLOR "\033[0;36m"
+#define DATA_COLOR "\033[0;32m"
 
 typedef struct Node {
     char *data;             
