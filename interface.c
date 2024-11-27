@@ -8,8 +8,6 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-#define HEADER_COLOR "\033[0;36m"
-#define DATA_COLOR "\033[0;32m"
 
 int console_width;
 
@@ -97,9 +95,15 @@ void login_page(){
     char password[50];
     authentication:
         printf(CHOICE);
-        printf("Enter your choice: ");
+        printf("\nEnter your choice: ");
         printf(RESET_COLOR);
-        scanf("%d", &choice);
+        if (scanf("%d", &choice) != 1) { 
+            printf(ERROR);
+            printf("[-] Choose from one of the above options only!\n");
+            printf(RESET_COLOR);
+            while (getchar() != '\n');
+            goto authentication;
+        }
 
         switch (choice){
             case 1:
@@ -179,7 +183,13 @@ void login_page(){
                 printf(INNER_QUERY);
                 printf("\tAge: ");
                 printf(RESET_COLOR);
-                scanf("%d", &age);
+                if (scanf("%d", &age) != 1) { 
+                    printf(ERROR);
+                    printf("\t[-] Invalid Age!\n");
+                    printf(RESET_COLOR);
+                    while (getchar() != '\n');
+                    goto age;
+                }
                 if (age < 10 || age > 120){
                     printf(ERROR);
                     printf("\t[-]Either you have entered an invaid age or your not eligible to create an account!\n");
@@ -187,13 +197,19 @@ void login_page(){
                     goto age;
                 }
 
-                gender:
                 printf("\tWhats your gender...\n\t1 \u2192 Male\n\t2 \u2192 Female\n\t3 \u2192 Other\n");
                 int gen_code;
+                gender:
                 printf(INNER_QUERY);
                 printf("\tGender: ");
                 printf(RESET_COLOR);
-                scanf("%d", &gen_code);
+                if (scanf("%d", &gen_code) != 1) { 
+                    printf(ERROR);
+                    printf("\t[-] Invalid input!\n");
+                    printf(RESET_COLOR);
+                    while (getchar() != '\n');
+                    goto gender;
+                }
                 switch (gen_code){
                     case 1:
                         strcpy(gender, "Male");
@@ -228,7 +244,7 @@ void login_page(){
                 break;
             default:
                 printf(ERROR);
-                printf("\t[-]Invalid choice!\n");
+                printf("[-] Choose from one of the above options only!\n");
                 printf(RESET_COLOR);
                 goto authentication;
         }
@@ -481,7 +497,13 @@ void u_option4(char *username){
     printf("\tEnter the Train ID: ");
     printf(RESET_COLOR);
     int id;
-    scanf("%d", &id);    
+    if (scanf("%d", &id) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     // Getting the data no of seats of each type available
     char *query1 = 
@@ -570,19 +592,25 @@ void u_option4(char *username){
         }
     }
     
+    // Taking the user input regarding passenger info and seat preferences
+    int n_tickets;
+    printf(INNER_QUERY);
+    printf("\tNumber of tickets: ");
+    printf(RESET_COLOR);
+    if (scanf("%d", &n_tickets) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
+
     printf("\tSeat Types: \n");
     printf("\t  1 \u2192 Sleeper  : %d\n", rem_sle);
     printf("\t  2 \u2192 AC 3 Tier: %d\n", rem_ac3);
     printf("\t  3 \u2192 AC 2 Tier: %d\n", rem_ac2);
     printf("\t  4 \u2192 AC 1 Tier: %d\n", rem_ac1);
     printf("\t  5 \u2192 General  : %d\n", rem_gen);
-
-    // Taking the user input regarding passenger info and seat preferences
-    int n_tickets;
-    printf(INNER_QUERY);
-    printf("\tNumber of tickets: ");
-    printf(RESET_COLOR);
-    scanf("%d", &n_tickets);
 
     char passengers[n_tickets][200];
     int seat_type[n_tickets];
@@ -600,17 +628,35 @@ void u_option4(char *username){
         printf(INNER_QUERY);
         printf("\tAge of %s: ", passengers[i]);
         printf(RESET_COLOR);
-        scanf("%d", &age[i]);
+        if (scanf("%d", &age[i]) != 1) { 
+            printf(ERROR);
+            printf("\t[-] Invalid Age!\n");
+            printf(RESET_COLOR);
+            while (getchar() != '\n');
+            return;
+        }
         printf("\t1 \u2192 Male\n\t2 \u2192 Female\n");
         printf(INNER_QUERY);
         printf("\tGender: ");
         printf(RESET_COLOR);
-        scanf("%d", &gender[i]);
+        if (scanf("%d", &gender[i]) != 1) { 
+            printf(ERROR);
+            printf("\t[-] Invalid Input!\n");
+            printf(RESET_COLOR);
+            while (getchar() != '\n');
+            return;
+        }
         seat:
         printf(INNER_QUERY);
         printf("\tSeat type for %s: ", passengers[i]);
         printf(RESET_COLOR);
-        scanf("%d", &seat_type[i]);
+        if (scanf("%d", &seat_type[i]) != 1) { 
+            printf(ERROR);
+            printf("\t[-] Invalid Input!\n");
+            printf(RESET_COLOR);
+            while (getchar() != '\n');
+            return;
+        }
         switch (seat_type[i])
         {
         case 1:
@@ -878,8 +924,13 @@ void u_option5(){
     printf(INNER_QUERY);
     printf("\tTrain ID: ");
     printf(RESET_COLOR);
-    scanf("%d", &id);
-
+    if (scanf("%d", &id) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
     char *query = 
         "SELECT Trains.stations, TrainSchedules.moving , Trains.t_name "
         "FROM TrainSchedules "
@@ -901,7 +952,7 @@ void u_option5(){
         for (int i = 0; i < c; i++){
             insert_at_end(list, st_arr[i]);
         }
-        // center_text(t_name, console_width, "\033[1;31m");
+
         printf("\n\033[1;31m%s\n", t_name);
         printf(RESET_COLOR);
         traverse_list(list, moving);
@@ -942,13 +993,6 @@ void u_option6_7(int option, char *username){
     sqlite3_stmt *stmt = execute_command(query);
     int user_id = get_user_id(username);
     sqlite3_bind_int(stmt, 1, user_id);
-    int repeat = 25;
-    const char *dash = "\u2500";
-    char line[150] = "";
-
-    for (int i = 0; i < repeat; i++) {
-        strcat(line, dash);
-    }
     
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -1004,7 +1048,6 @@ void u_option6_7(int option, char *username){
         }
         print_table(headers, cols, data, rows);
         printf("\n");
-        // center_text(line, 95, "\033[0;31m");
     }
 
     sqlite3_finalize(stmt);
@@ -1015,7 +1058,13 @@ void u_option9(char *username){
     printf(INNER_QUERY);
     printf("\tReservation id: ");
     printf(RESET_COLOR);
-    scanf("%d", &r_id);
+    if (scanf("%d", &r_id) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     char *sql = "SELECT seats, status, sch_id FROM Reservation WHERE user_id = ? AND id = ?;";
     sqlite3_stmt *stmt = execute_command(sql);
@@ -1148,7 +1197,13 @@ void u_option10(char *username){
     printf(INNER_QUERY);
     printf("\n\tChoice: ");
     printf(RESET_COLOR);
-    scanf("%d", &choice);
+    if (scanf("%d", &choice) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
     switch (choice){
         case 1:{
             printf(INNER_QUERY);
@@ -1164,7 +1219,13 @@ void u_option10(char *username){
             printf(INNER_QUERY);
             printf("\tAge: ");
             printf(RESET_COLOR);
-            scanf("%d", &age);
+            if (scanf("%d", &age) != 1) { 
+                printf(ERROR);
+                printf("\t[-] Invalid Input!\n");
+                printf(RESET_COLOR);
+                while (getchar() != '\n');
+                return;
+            }
             goto choice;
             break;
         }
@@ -1174,7 +1235,13 @@ void u_option10(char *username){
             printf(INNER_QUERY);
             printf("\tGender: ");
             printf(RESET_COLOR);
-            scanf("%d", &temp);
+            if (scanf("%d", &temp) != 1) { 
+                printf(ERROR);
+                printf("\t[-] Invalid Input!\n");
+                printf(RESET_COLOR);
+                while (getchar() != '\n');
+                return;
+            }
             if (temp!=1 && temp!=2){
                 printf(ERROR);
                 printf("\t[-] Choose one of the valid options only.\n");
@@ -1259,14 +1326,22 @@ void admin(char *username){
         "\t0 \u2192 Exit\n");
     
     int choice = -1;
-    choice:
     while (choice != 0){
+        choice:
         printf(CHOICE);
         printf("\nEnter your choice: ");
         printf(RESET_COLOR);
-        scanf("%d", &choice);
-        getchar();
-        printf("\n");
+        if (scanf("%d", &choice) != 1) { 
+            printf(ERROR);
+            printf("[-] Choose from one of the above options only!\n");
+            printf(RESET_COLOR);
+            while (getchar() != '\n');
+            goto choice;
+        }
+        else{
+            getchar();
+            printf("\n");
+        }
 
         switch (choice){
             
@@ -1281,8 +1356,15 @@ void admin(char *username){
                 printf(INNER_QUERY);
                 printf("\tTrain ID: ");
                 printf(RESET_COLOR);
-                scanf("%d", &id);
-                a_option2_3(3, id);
+                if (scanf("%d", &id) != 1) { 
+                    printf(ERROR);
+                    printf("\t[-] Invalid Input!\n");
+                    printf(RESET_COLOR);
+                    while (getchar() != '\n');
+                }
+                else{
+                    a_option2_3(3, id);
+                }
                 break;
             }
             case 4:
@@ -1307,7 +1389,9 @@ void admin(char *username){
                 exit(0);
                 break;
             default:
+                printf(ERROR);
                 printf("[-] Choose from one of the above options only!\n");
+                printf(RESET_COLOR);
                 goto choice;
         }
     }
@@ -1496,32 +1580,68 @@ void a_option4(){
     printf(INNER_QUERY);
     printf("\n\tCoach Capacity: ");
     printf(RESET_COLOR);
-    scanf("%d", &train.coach_cap);
+    if (scanf("%d", &train.coach_cap) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     printf(INNER_QUERY);
     printf("\tSleeper Seats: ");
     printf(RESET_COLOR);
-    scanf("%d", &train.sleeper);
+    if (scanf("%d", &train.sleeper) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     printf(INNER_QUERY);
     printf("\tGeneral Seats: ");
     printf(RESET_COLOR);
-    scanf("%d", &train.general);
+    if (scanf("%d", &train.general) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     printf(INNER_QUERY);
     printf("\tAC(Tire 3) Seats: ");
     printf(RESET_COLOR);
-    scanf("%d", &train.ac3);
+    if (scanf("%d", &train.ac3) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     printf(INNER_QUERY);
     printf("\tAC(Tire 2) Seats: ");
     printf(RESET_COLOR);
-    scanf("%d", &train.ac2);
+    if (scanf("%d", &train.ac2) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     printf(INNER_QUERY);
     printf("\tAC(Tire 1) Seats: ");
     printf(RESET_COLOR);
-    scanf("%d", &train.ac1);
+    if (scanf("%d", &train.ac1) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     char merged_string[1000];
     merge_strings(merged_string, train.stations, i);
@@ -1554,7 +1674,13 @@ void a_option5(){
     printf(INNER_QUERY);
     printf("\tTrain ID: ");
     printf(RESET_COLOR);
-    scanf("%d", &t_id);
+    if (scanf("%d", &t_id) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     char query[400];
     snprintf(query, sizeof(query), "SELECT EXISTS(SELECT 1 FROM Trains WHERE id = %d);", t_id);
@@ -1575,7 +1701,13 @@ void a_option5(){
     printf("\n\tConformation: ");
     printf(RESET_COLOR);
     int con = 0;
-    scanf("%d", &con);
+    if (scanf("%d", &con) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
     if (con != 1){
         return;
     }
@@ -1622,7 +1754,13 @@ void a_option6(){
     printf(INNER_QUERY);
     printf("\tTrain ID: ");
     printf(RESET_COLOR);
-    scanf("%d",&t_id);
+    if (scanf("%d", &t_id) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     char query[400];
     snprintf(query, sizeof(query), "SELECT EXISTS(SELECT 1 FROM Trains WHERE id = %d);", t_id);
@@ -1696,7 +1834,13 @@ void a_option6(){
     printf(INNER_QUERY);
     printf("\tJourney: ");
     printf(RESET_COLOR);
-    scanf("%d", &moving);
+    if (scanf("%d", &moving) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
     if (moving != 1 && moving != 2){
         printf(ERROR);
         printf("\t[-]Choose from the above options only.\n");
@@ -1732,7 +1876,13 @@ void a_option7(){
     printf(INNER_QUERY);
     printf("\tTrain Schedule ID: ");
     printf(RESET_COLOR);
-    scanf("%d", &sch_id);
+    if (scanf("%d", &sch_id) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
 
     char query[400];
     snprintf(query, sizeof(query), "SELECT EXISTS(SELECT 1 FROM TrainSchedules WHERE id = %d);", sch_id);
@@ -1753,7 +1903,13 @@ void a_option7(){
     printf("\n\tConformation: ");
     printf(RESET_COLOR);
     int con = 0;
-    scanf("%d", &con);
+    if (scanf("%d", &con) != 1) { 
+        printf(ERROR);
+        printf("\t[-] Invalid Input!\n");
+        printf(RESET_COLOR);
+        while (getchar() != '\n');
+        return;
+    }
     if (con != 1){
         return;
     }
@@ -1806,7 +1962,13 @@ void a_option8_9(int option){
         printf(INNER_QUERY);
         printf("\tTrain Schedule ID: ");
         printf(RESET_COLOR);
-        scanf("%d", &sch_id);
+        if (scanf("%d", &sch_id) != 1) { 
+            printf(ERROR);
+            printf("\t[-] Invalid Input!\n");
+            printf(RESET_COLOR);
+            while (getchar() != '\n');
+            return;
+        }
         printf("\n");
         snprintf(where_query, sizeof(where_query), " WHERE r.sch_id = %d;", sch_id);
     }
