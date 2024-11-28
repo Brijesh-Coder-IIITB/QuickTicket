@@ -600,6 +600,12 @@ void u_option4(char *username){
         while (getchar() != '\n');
         return;
     }
+    if (n_tickets > 20){
+        printf(ERROR);
+        printf("\t[-] You are only allowed to book maximum of 20 tickets!\n");
+        printf(RESET_COLOR);
+        return;
+    }
 
     printf("\tSeat Types: \n");
     printf("\t  1 \u2192 Sleeper  : %d\n", rem_sle);
