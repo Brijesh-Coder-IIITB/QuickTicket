@@ -28,7 +28,7 @@ void a_option4();
 void a_option5();
 void a_option6();
 void a_option7();
-void a_option8_9();
+void a_option8_9(int option);
 
 void print_line(int width, char *colour){
     for (int i = 0; i < width; i++) {
@@ -1175,11 +1175,11 @@ void u_option9(char *username){
     int age;
 
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        strcpy(password, sqlite3_column_text(stmt, 0));
-        strcpy(name, sqlite3_column_text(stmt, 1));
+        strcpy(password, (const char *)sqlite3_column_text(stmt, 0));
+        strcpy(name, (const char *)sqlite3_column_text(stmt, 1));
         age = sqlite3_column_int(stmt, 2);
-        strcpy(gender, sqlite3_column_text(stmt, 3));
-        strcpy(email, sqlite3_column_text(stmt, 4));
+        strcpy(gender, (const char *)sqlite3_column_text(stmt, 3));
+        strcpy(email, (const char *)sqlite3_column_text(stmt, 4));
         printf("\n\tMy Profile:\n");
         printf("\t\tPassword: %s\n", password);
         printf("\t\tName: %s\n", name);
@@ -1484,7 +1484,7 @@ void a_option2_3(int option, int id){
         int ac2 = sqlite3_column_int(stmt, 11);
         int ac1 = sqlite3_column_int(stmt, 12);
         int g = sqlite3_column_int(stmt, 13);
-        const char *canceled = sqlite3_column_text(stmt, 14);
+        const char *canceled = (const char *)sqlite3_column_text(stmt, 14);
 
         char cancelled_seats[1000][20];
         int count = split_string(canceled, 1000, 7, cancelled_seats);
