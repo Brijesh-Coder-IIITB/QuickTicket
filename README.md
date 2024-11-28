@@ -8,14 +8,14 @@ Download the project from GitHub or clone it using the following command.
 git clone https://github.com/tatwik-sai/QuickTicket.git
 ```
 
-- Naavigae into the QuickTicker directory before running the program.
+- Navigate into the QuickTicket directory before running the program.
 - Ensure to have the make utility installed on your system.
 
 ```
 sudo apt install make
 ```
 
-- Run the following command to create an executable(.out) file.
+- Run the following command to create an executable (.out) file.
 
 ```
 make rerun
@@ -32,13 +32,6 @@ make rerun
 
 
 ---
-#### Team Members
-- Shiva Reddy
-- Tatwik Sai
-- Mohammed Farhan
-- Bhavesh
-- Tharun Sai Pranav
----
 
 ![Home Page](https://i.ibb.co/8rSTXVk/qkt1.png)
 ---
@@ -51,14 +44,28 @@ make rerun
 | tatwik_sai | verystrongpass |
 
 ---
+
+#### Team Members
+
+| Name   | Rollno       | Contribution  |
+|------------|----------------|---------|
+|Madire Shiva Reddy | BT2024218 | Handling the database |
+|Molleti Tatwik Sai | BT2024200 | Ticket Booking, Interface, Some Utility functions |
+| Mohammed Farhan | BT2024140 | Removing a Schedule and viewing reservations from admin side |
+| Mallepaddi Bhavesh | IMT2024069 | Management of Trains from the Admin side.|
+| Chandala Tharun Sai Pranav | BT2024168 | Viewing and searching Trains and login functionality. |
+| Repalle Dhanush | BT2024155 | Handling reservations and updating profile from user side. |
+
+---
+
 #### Application Features
-- The application starts with a login page where you can register as new user or sign in as an admin or a user .
+- The application starts with a login page where you can register as a new user or sign in as an admin or a user .
     - **Admin** - You can sign in using the default credentials.
     - **User** - Can sign in or sign up.
 
 - Once you sign in, you will be taken to the main page with different options for admin and user.
     - **Admin**
-  
+      
         **1.** View Trains  
         **2.** View Schedules  
         **3.** View Schedules of a Train  
@@ -71,15 +78,15 @@ make rerun
         **0.** Exit
 
     - **User**
-
+      
         **1.** View all Trains  
         **2.** Search Trains from Source to Destination  
         **3.** Search Trains from Source to Destination on a Date  
-        **4.** Book a Ticket  
+        **4.** Book a Ticket    
         **5.** View Train Map  
-        **6.** View Reservation History  
+        **6.** View Reservation History   
         **7.** View Active Reservations  
         **8.** Cancel a Reservation  
         **9.** Update Profile  
-        **0.** Exit
+        **0.** Exit  
 ---
