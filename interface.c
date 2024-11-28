@@ -117,7 +117,9 @@ void login_page(){
                 printf(INNER_QUERY);
                 printf("\tEnter your Password: ");
                 printf(RESET_COLOR);
+                printf("\033[8m");
                 scanf("%49s", password);
+                printf(RESET_COLOR);
                 if (validate_user_admin(username, password, 1)){
                     user(username);
                 }
@@ -139,7 +141,9 @@ void login_page(){
                 printf(INNER_QUERY);
                 printf("\tEnter your Password: ");
                 printf(RESET_COLOR);
+                printf("\033[8m");
                 scanf("%49s", password);
+                printf(RESET_COLOR);
                 if (validate_user_admin(username, password, 2)){
                     admin(username);
                 }
@@ -161,7 +165,9 @@ void login_page(){
                 printf(INNER_QUERY);
                 printf("\tChoose your Password: ");
                 printf(RESET_COLOR);
+                printf("\033[8m");
                 scanf("%49s", password);
+                printf(RESET_COLOR);
 
                 char name[100], gender[10], email[100];
                 int age;
@@ -342,6 +348,7 @@ void u_option1(){
     int cols = sizeof(headers) / sizeof(headers[0]);
     char data[1000][cols][500];
     int rows = 0;
+    int any_data = 0;
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         const char *train_name = (const char *)sqlite3_column_text(stmt, 0);
@@ -367,6 +374,7 @@ void u_option1(){
         }
 
         if (is_date_time_in_future(dep_date, dep_time)){
+            any_data = 1;
             sprintf(data[rows][0], "%d", schedule_id);
             snprintf(data[rows][1], 100, "%s %s", dep_date, dep_time);
             snprintf(data[rows][2], 100, "%s %s", arr_date, arr_time);
@@ -375,7 +383,12 @@ void u_option1(){
             rows++;
         }
     }
-    print_table(headers, cols, data, rows);
+    if (any_data){
+        print_table(headers, cols, data, rows);
+    }
+    else{
+        printf("\tNo Trains Found\n");
+    }
     sqlite3_finalize(stmt);
 }
 
@@ -386,12 +399,15 @@ void u_option2_3(int option, char *date) {
     printf(INNER_QUERY);
     printf("\tFrom Location: ");
     printf(RESET_COLOR);
-    scanf("%s", from);
+    getchar();
+    fgets(from, 199, stdin);
+    from[strcspn(from, "\n")] = '\0';
 
     printf(INNER_QUERY);
     printf("\tTo Location: ");
     printf(RESET_COLOR);
-    scanf("%s", to);
+    fgets(to, 199, stdin);
+    to[strcspn(to, "\n")] = '\0';
 
     char *query =
         "SELECT Trains.t_name, TrainSchedules.id, TrainSchedules.dep_date, TrainSchedules.dep_time, "
@@ -411,6 +427,7 @@ void u_option2_3(int option, char *date) {
     int satifying_query = 0;
     char output[MAX_STATIONS][MAX_STATION_NAME];
     int forward;
+    int any_data = 0;
     
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         const char *train_name = (const char *)sqlite3_column_text(stmt, 0);
@@ -467,6 +484,7 @@ void u_option2_3(int option, char *date) {
 
         if (satifying_query && (strcmp(moving, (forward == 0)?"0":"1") == 0)) {
             if (option == 2){
+                any_data = 1;
                 sprintf(data[rows][0], "%d", schedule_id);
                 snprintf(data[rows][1], 100, "%s %s", dep_date, dep_time);
                 snprintf(data[rows][2], 100, "%s %s", arr_date, arr_time);
@@ -474,6 +492,7 @@ void u_option2_3(int option, char *date) {
                 rows++;
             }
             else if (option == 3 && (strcmp(date, dep_date)==0)){
+                any_data = 1;
                 sprintf(data[rows][0], "%d", schedule_id);
                 snprintf(data[rows][1], 100, "%s %s", dep_date, dep_time);
                 snprintf(data[rows][2], 100, "%s %s", arr_date, arr_time);
@@ -482,7 +501,12 @@ void u_option2_3(int option, char *date) {
             }
         }
     }
-    print_table(headers, cols, data, rows);
+    if (any_data){
+        print_table(headers, cols, data, rows);
+    }
+    else{
+        printf("\tNo Trains Found.\n");
+    }
     sqlite3_finalize(stmt);
 }
 
@@ -995,6 +1019,7 @@ void u_option6_7(int option, char *username){
     sqlite3_stmt *stmt = execute_command(query);
     int user_id = get_user_id(username);
     sqlite3_bind_int(stmt, 1, user_id);
+    int is_data = 0;
     
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -1020,6 +1045,7 @@ void u_option6_7(int option, char *username){
         blue: status reserved and journey done.
         red: status cancled\\
         */
+        is_data = 1;
         char form_t_name[200];
         sprintf(form_t_name, "%s (%s \u21D4 %s)\n", train_name, s_station, e_station);
         printf("\n");
@@ -1050,6 +1076,9 @@ void u_option6_7(int option, char *username){
         }
         print_table(headers, cols, data, rows);
         printf("\n");
+    }
+    if (!is_data){
+        printf("\tNo Reservations Found\n");
     }
 
     sqlite3_finalize(stmt);
@@ -1258,12 +1287,16 @@ void u_option9(char *username){
             printf(INNER_QUERY);
             printf("\tOld Password: ");
             printf(RESET_COLOR);
+            printf("\033[8m");
             scanf("%s", old_pass);
+            printf(RESET_COLOR);
             if (strcmp(old_pass, password) == 0){
                 printf(INNER_QUERY);
                 printf("\tEnter New Password: ");
                 printf(RESET_COLOR);
+                printf("\033[8m");
                 scanf("%s", password);
+                printf(RESET_COLOR);
             }
             else{
                 printf(ERROR);
