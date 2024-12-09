@@ -8,7 +8,7 @@ Download the project from GitHub or clone it using the following command.
 git clone https://github.com/tatwik-sai/QuickTicket.git
 ```
 
-- Navigate into the QuickTicket directory before running the program.
+- Navigate into the Python-Project directory before running the program.
 - Ensure to have the make utility installed on your system.
 
 ```
